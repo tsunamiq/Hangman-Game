@@ -14,7 +14,9 @@ var wins = 0;
 //======Random Word Generator Function=======
 
 function wordgenerator(){
-//Array of words game will choose
+
+	console.log("Welcome to hangman! Please start Guessing!");
+	//Array of words game will choose
 	gameWords = ["conquer", "animal", "racecar"];
 	//Choosing random word from Words Array with index
 	var randIndex = Math.floor(Math.random() * gameWords.length);
@@ -34,7 +36,7 @@ function wordgenerator(){
 }
 
 
-//========Input Letters Function========
+//========Input Letters Function===========================
 
 // Function to collect letter input
 
@@ -43,21 +45,27 @@ console.log(randWord);
 
 function myFunction(event){
 
-	var guessLetter = event.key
+	var guessLetter = event.key; // key assigned
 
-	if(letterscan(guessLetter, randWord)){
-		console.log("You're RIGHT");
-		guessWord[i] = guessLetter; 
-
+	if(letterscan(guessLetter,missedLetters) || letterscan(guessLetter,guessWord)){ // skips repeated keys
+		console.log("try again!");
 	}else{
-		console.log("You're WRONG");
-		count++;
-		console.log("count:"+ count);
-	}
-			
-		gamestatus();	
-}
 
+		// if key is correct letter is entered into guessed array
+		if(letterscan(guessLetter, randWord)){ 
+			console.log("You're RIGHT");
+			letterReplace(guessLetter, randWord);
+
+		// if key is incorrect. counter is increased to indicate number of incorrect attempts.
+		}else{
+			console.log("You're WRONG");
+			count++;
+			console.log("count:"+ count);
+			missedLetters.push(guessLetter);
+		}
+	}
+	gamestatus();	
+}
 
 
 //letter scan Function
@@ -66,13 +74,24 @@ function letterscan(letter, word){
 	var guess = false;
 	for( var i = 0 ; i < word.length ; i++){
 		if(letter === word[i]){
-			console.log("YES YOU'RE RIGHT");
+			
 			guess = true; 
 		}
 	}
 return guess;
 }
 
+//letter replacement
+
+function letterReplace(letter, wordarray){
+	for( var i = 0 ; i < wordarray.length ; i++){
+		if(letter === wordarray[i]){
+			guessWord[i] = letter;
+
+			console.log(guessWord);
+		}
+	}
+}
 
 
 // loop to measure is game has been won
@@ -89,10 +108,16 @@ function gamestatus(){
 		count = 0; 
 		console.log("YOU WIN THE GAME");
 		wins++;
+		console.log("You have won:" + wins + " GAMES!")
+		missedLetters =[];
+		guessWord = [];
+		wordgenerator();
 	}	
 	if(count > 7){
-		console.log("YOU LOSE THE GAME");
+		console.log("YOU LOSE THE GAME; try again");
 		count = 0;
+		missedLetters =[];
+		guessWord = [];
 		wordgenerator();
 	}
 }
@@ -100,23 +125,6 @@ function gamestatus(){
 
 
 
-// achieve code
-
-// 	for( var i = 0 ; i < guessWord.length ; i++){
-		// 		if(guessLetter === randWord[i] ){
-		// 			console.log("YES YOU'RE RIGHT");
-		// 			var correctGuess = true; 
-					
-
-		// 			console.log(guessWord);
-		// 		}
-		// 	}
-			// if(correctGuess === false){
-			// 	count++
-			// 	missedLetters.push(guessLetter);
-			// 	console.log("missed letters Log:" + missedLetters);
-			// 	console.log("count:" +count);
-			// }	
 
 </script>
 
