@@ -10,12 +10,41 @@
 var gameWords =[], randWord, guessWord = [], wordArray =[];
 var missedLetters =[];
 var wins = 0;
+var enable = true;
 
+
+//======Game Start==========================
+var messagecount = 0;
+function messagebox(id) {
+	if(messagecount < 1){
+    	id.innerHTML = "Start!";
+  		// timedelay(id);
+   		setTimeout(function(){wordgenerator()}, 2000)
+   		messagecount++;
+	}else{
+		return;
+	}
+}
+
+
+//=======time delay=========
+function timedelay(id){
+ setTimeout(function(){
+    	id.innerHTML = "";
+    }, 2000)
+}
+
+// function delay(){
+// 	setTimeout(function(){word, 4000);
+// }
 //======Random Word Generator Function=======
 
 function wordgenerator(){
 
-	console.log("Welcome to hangman! Please start Guessing!");
+	console.log("Please enter your guess 1 key at a time");
+	document.getElementById("message").innerHTML = "Please enter your guess 1 key at a time";
+
+
 	//Array of words game will choose
 	gameWords = ["conquer", "animal", "racecar"];
 	//Choosing random word from Words Array with index
@@ -33,6 +62,9 @@ function wordgenerator(){
 	}
 
 	console.log("this is random word:" + randWord);
+
+	document.getElementById("blankfill").innerHTML = guessWord;
+	document.getElementById("wrongletters").innerHTML = missedLetters;
 }
 
 
@@ -40,31 +72,43 @@ function wordgenerator(){
 
 // Function to collect letter input
 
-var count = 0 ; 
+var count = 1 ; 
 console.log(randWord);
 
 function myFunction(event){
+	if(enable == true){
+		var guessLetter = event.key; // key assigned
 
-	var guessLetter = event.key; // key assigned
-
-	if(letterscan(guessLetter,missedLetters) || letterscan(guessLetter,guessWord)){ // skips repeated keys
-		console.log("try again!");
-	}else{
-
-		// if key is correct letter is entered into guessed array
-		if(letterscan(guessLetter, randWord)){ 
-			console.log("You're RIGHT");
-			letterReplace(guessLetter, randWord);
-
-		// if key is incorrect. counter is increased to indicate number of incorrect attempts.
+		if(letterscan(guessLetter,missedLetters) || letterscan(guessLetter,guessWord)){ // skips repeated keys
+			console.log("try again!");
+			document.getElementById("message").innerHTML = "You have already chosen that key! Please try another Key.";
 		}else{
-			console.log("You're WRONG");
-			count++;
-			console.log("count:"+ count);
-			missedLetters.push(guessLetter);
+
+			// if key is correct letter is entered into guessed array
+			if(letterscan(guessLetter, randWord)){ 
+				console.log("You're RIGHT");
+				document.getElementById("message").innerHTML = "Correct Letter!";
+				letterReplace(guessLetter, randWord);
+
+				document.getElementById("blankfill").innerHTML = guessWord;
+
+			// if key is incorrect. counter is increased to indicate number of incorrect attempts.
+			}else{
+				console.log("You're WRONG");
+				document.getElementById("message").innerHTML = "Nope, not a letter in the word. Try again!";
+				count++;
+				var displaycount = 7 - count;
+				document.getElementById("countdown").innerHTML = displaycount;
+
+				console.log("count:"+ count);
+				missedLetters.push(guessLetter);
+				document.getElementById("wrongletters").innerHTML = missedLetters;
+			}
 		}
+		gamestatus();	
+	}else{
+		return;
 	}
-	gamestatus();	
 }
 
 
@@ -107,32 +151,103 @@ function gamestatus(){
 	if(blanks === 0){
 		count = 0; 
 		console.log("YOU WIN THE GAME");
+		document.getElementById("message").innerHTML = " You Win!";
 		wins++;
 		console.log("You have won:" + wins + " GAMES!")
+		document.getElementById("numwins").innerHTML = wins;
 		missedLetters =[];
 		guessWord = [];
-		wordgenerator();
+		enable = false ;
+		setTimeout(function(){enable = true}, 3000);
+		setTimeout(function(){wordgenerator()}, 2000)
+		// wordgenerator();
 	}	
-	if(count > 7){
+	if(count > 6){
 		console.log("YOU LOSE THE GAME; try again");
+		document.getElementById("message").innerHTML = "YOU LOSE!";
 		count = 0;
 		missedLetters =[];
 		guessWord = [];
-		wordgenerator();
+		enable = false;
+		setTimeout(function(){enable = true}, 3000);
+		setTimeout(function(){wordgenerator()}, 2000);
+				// wordgenerator();
+
 	}
 }
 
 
-
-
-
 </script>
+
+<head>
+		<title> Hang Man</title>
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		<link href="https://fonts.googleapis.com/css?family=Droid+Serif|Open+Sans" rel="stylesheet">
+		
+	</head>
+
 
 
 <body onkeydown="myFunction(event)">
 
-<h3> Click Here to Play</h3>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6">
+				<h1> Hang Man</h1>
+			</div>
+		</div>
+	</div>
 
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4"> <!--images-->
+				<h3>Picture</h3>
+			</div>
+			
+			<div class="col=md-4"> <!--Right column /w message, blanks, guessed letters-->
+					<div class="container">
+						<div class="row"> <!--message board-->
+							<div class="col-md-4"> <!--images-->
+								<h2 id="message" onclick="messagebox(this)"> Click To Start Game!</h2>
+								
+							</div>
+
+						</div>
+					
+
+					
+						<div class="row">
+							<div class="col-md-4"> <!--blank fill-->
+								<h3 id="blankfill"> blank fill</h3>
+							</div>
+						</div>
+					
+
+				
+						<div class="row">
+							<div class="col-md-4"> <!--Wins-->
+								<h3 id="numwins"> number of wins</h3>
+							</div>
+						</div>
+					
+						<div class="row">
+							<div class="col-md-4"> <!--Number of tries left-->
+								<h3 id="countdown"> Number of tries left</h3>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-4"> <!--letters wrong-->
+								<h3 id="wrongletters"> wrong letters </h3>
+							</div>
+						</div>
+					</div>
+			</div>
+		</div>
+	</div>
 
 
 
