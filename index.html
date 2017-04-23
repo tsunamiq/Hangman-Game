@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+
+
+
+
+<script>
+
+
+//======Random Word Generator=======
+
+
+//Array of words game will choose
+var gameWords = ["conquer", "animal", "racecar"];
+
+//Choosing random word from Words Array with index
+var randIndex = Math.floor(Math.random() * gameWords.length);
+var randWord = gameWords[randIndex];
+
+//Breaking random word's letters into array.
+var wordArray = [];
+for(var i = 0 ; i < randWord.length ; i++){
+	wordArray.push(randWord[i]);
+}
+
+//Creating empty guessing array
+var guessWord = [];
+for(var i = 0 ; i < randWord.length ; i++){
+	guessWord.push("-");
+}
+
+
+//========Input Letters========
+
+// Function to collect letter input
+
+
+
+var count = 0 ; 
+
+function myFunction(event){
+		var correctGuess = false; 
+		var guessLetter = event.key
+			for( var i = 0 ; i < guessWord.length ; i++){
+				if(guessLetter === randWord[i] ){
+					console.log("YES YOU'RE RIGHT");
+					var correctGuess = true; 
+					guessWord[i] = guessLetter; 
+
+					console.log(guessWord);
+				}
+			}
+			if(correctGuess === false){
+				count++
+				console.log("count:" +count);
+			}	
+}
+
+</script>
+
+
+<body onkeydown="myFunction(event)">
+
+<h3> Click Here to Play</h3>
+
+
+
+
+
+</body>
+
+
+</html>
