@@ -17,9 +17,9 @@ var enable = true;
 var messagecount = 0;
 function messagebox(id) {
 	if(messagecount < 1){
-    	id.innerHTML = "Start!";
+    	id.innerHTML = "Starting Game!";
   		// timedelay(id);
-   		setTimeout(function(){wordgenerator()}, 2000)
+   		setTimeout(function(){wordgenerator()}, 1000)
    		messagecount++;
 	}else{
 		return;
