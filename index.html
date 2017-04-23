@@ -7,55 +7,116 @@
 
 <script>
 
+var gameWords =[], randWord, guessWord = [], wordArray =[];
+var missedLetters =[];
+var wins = 0;
 
-//======Random Word Generator=======
+//======Random Word Generator Function=======
 
-
+function wordgenerator(){
 //Array of words game will choose
-var gameWords = ["conquer", "animal", "racecar"];
+	gameWords = ["conquer", "animal", "racecar"];
+	//Choosing random word from Words Array with index
+	var randIndex = Math.floor(Math.random() * gameWords.length);
+	randWord = gameWords[randIndex];
 
-//Choosing random word from Words Array with index
-var randIndex = Math.floor(Math.random() * gameWords.length);
-var randWord = gameWords[randIndex];
+	//Breaking random word's letters into array.
+	for(var i = 0 ; i < randWord.length ; i++){
+		wordArray.push(randWord[i]);
+	}
 
-//Breaking random word's letters into array.
-var wordArray = [];
-for(var i = 0 ; i < randWord.length ; i++){
-	wordArray.push(randWord[i]);
+	//Creating empty guessing array
+	for(var i = 0 ; i < randWord.length ; i++){
+		guessWord.push("-");
+	}
+
+	console.log("this is random word:" + randWord);
 }
 
-//Creating empty guessing array
-var guessWord = [];
-for(var i = 0 ; i < randWord.length ; i++){
-	guessWord.push("-");
-}
 
-
-//========Input Letters========
+//========Input Letters Function========
 
 // Function to collect letter input
 
-
-
 var count = 0 ; 
+console.log(randWord);
 
 function myFunction(event){
-		var correctGuess = false; 
-		var guessLetter = event.key
-			for( var i = 0 ; i < guessWord.length ; i++){
-				if(guessLetter === randWord[i] ){
-					console.log("YES YOU'RE RIGHT");
-					var correctGuess = true; 
-					guessWord[i] = guessLetter; 
 
-					console.log(guessWord);
-				}
-			}
-			if(correctGuess === false){
-				count++
-				console.log("count:" +count);
-			}	
+	var guessLetter = event.key
+
+	if(letterscan(guessLetter, randWord)){
+		console.log("You're RIGHT");
+		guessWord[i] = guessLetter; 
+
+	}else{
+		console.log("You're WRONG");
+		count++;
+		console.log("count:"+ count);
+	}
+			
+		gamestatus();	
 }
+
+
+
+//letter scan Function
+
+function letterscan(letter, word){
+	var guess = false;
+	for( var i = 0 ; i < word.length ; i++){
+		if(letter === word[i]){
+			console.log("YES YOU'RE RIGHT");
+			guess = true; 
+		}
+	}
+return guess;
+}
+
+
+
+// loop to measure is game has been won
+function gamestatus(){
+	var blanks = 0;
+
+	for( var i = 0 ; i < guessWord.length ; i++){
+		if(guessWord[i] === "-"){
+			blanks++;
+			console.log("blanks");
+		}
+	}
+	if(blanks === 0){
+		count = 0; 
+		console.log("YOU WIN THE GAME");
+		wins++;
+	}	
+	if(count > 7){
+		console.log("YOU LOSE THE GAME");
+		count = 0;
+		wordgenerator();
+	}
+}
+
+
+
+
+// achieve code
+
+// 	for( var i = 0 ; i < guessWord.length ; i++){
+		// 		if(guessLetter === randWord[i] ){
+		// 			console.log("YES YOU'RE RIGHT");
+		// 			var correctGuess = true; 
+					
+
+		// 			console.log(guessWord);
+		// 		}
+		// 	}
+			// if(correctGuess === false){
+			// 	count++
+			// 	missedLetters.push(guessLetter);
+			// 	console.log("missed letters Log:" + missedLetters);
+			// 	console.log("count:" +count);
+			// }	
 
 </script>
 
