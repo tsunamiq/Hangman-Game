@@ -11,13 +11,10 @@ var gameWords =[], randWord, guessWord = [], wordArray =[];
 var missedLetters =[];
 var wins = 0;
 var enable = true;
-var messagecount =0;
-
-//==========================================
-//              Game Start
-//==========================================
 
 
+//======Game Start==========================
+var messagecount = 0;
 function messagebox(id) {
 	if(messagecount < 1){
     	id.innerHTML = "Starting Game!";
@@ -37,20 +34,19 @@ function timedelay(id){
     }, 2000)
 }
 
-
-//===========================================
-//     Random Word Generator Function
-//===========================================
-
+// function delay(){
+// 	setTimeout(function(){word, 4000);
+// }
+//======Random Word Generator Function=======
 
 function wordgenerator(){
 
-	// console.log("Please enter your guess 1 key at a time");
+	console.log("Please enter your guess 1 key at a time");
 	document.getElementById("message").innerHTML = "Please enter your guess 1 key at a time";
 
 
 	//Array of words game will choose
-	gameWords = ["porchegt3", "nissanskyline", "maclarenp1"];
+	gameWords = ["conquer", "animal", "racecar"];
 	//Choosing random word from Words Array with index
 	var randIndex = Math.floor(Math.random() * gameWords.length);
 	randWord = gameWords[randIndex];
@@ -67,17 +63,12 @@ function wordgenerator(){
 
 	console.log("this is random word:" + randWord);
 
-	//displaying blank fill info and wrong letters on screen
 	document.getElementById("blankfill").innerHTML = guessWord;
 	document.getElementById("wrongletters").innerHTML = missedLetters;
 }
 
 
-//============================================
-//          Input Letters Function
-//============================================
-
-
+//========Input Letters Function===========================
 
 // Function to collect letter input
 
@@ -85,7 +76,7 @@ var count = 1 ;
 console.log(randWord);
 
 function myFunction(event){
-	if(enable == true){				// enable is filter for repeated letters
+	if(enable == true){
 		var guessLetter = event.key; // key assigned
 
 		if(letterscan(guessLetter,missedLetters) || letterscan(guessLetter,guessWord)){ // skips repeated keys
@@ -147,47 +138,28 @@ function letterReplace(letter, wordarray){
 }
 
 
-//=============================================
-//      loop to measure is game has been won
-//=============================================
-
-
+// loop to measure is game has been won
 function gamestatus(){
 	var blanks = 0;
 
-	// adding "-" to see if word is completed
 	for( var i = 0 ; i < guessWord.length ; i++){
 		if(guessWord[i] === "-"){
 			blanks++;
 			console.log("blanks");
 		}
 	}
-
-	// if no "-" are found, game is won
 	if(blanks === 0){
 		count = 0; 
 		console.log("YOU WIN THE GAME");
 		document.getElementById("message").innerHTML = " You Win!";
 		wins++;
-		
-		// display correct image when won
-		displayimg();
-
-		//sound associated to car
-		playsound();
-
-		
-
+		console.log("You have won:" + wins + " GAMES!")
 		document.getElementById("numwins").innerHTML = wins;
 		missedLetters =[];
 		guessWord = [];
 		enable = false ;
-		setTimeout(function(){enable = true}, 6000);
-		setTimeout(function(){wordgenerator()}, 5000)
-		setTimeout(function(){clearimg()}, 6000);
-		setTimeout(function(){clearsound()}, 6000);
-		document.getElementById("countdown").innerHTML = "7";
-		
+		setTimeout(function(){enable = true}, 3000);
+		setTimeout(function(){wordgenerator()}, 2000)
 		// wordgenerator();
 	}	
 	if(count > 6){
@@ -199,66 +171,13 @@ function gamestatus(){
 		enable = false;
 		setTimeout(function(){enable = true}, 3000);
 		setTimeout(function(){wordgenerator()}, 2000);
-		document.getElementById("countdown").innerHTML = "7";
-
-				
+				// wordgenerator();
 
 	}
 }
- 
-// Display photo when win function
-function displayimg(){
-	if(randWord ==="maclarenp1"){
-		document.getElementById("photo").innerHTML = "<img src='assets/img/p1.jpg'>";
-	}else if( randWord === "nissanskyline"){
-		document.getElementById("photo").innerHTML = "<img src='assets/img/skyline.jpg'>";
-	}else if (randWord === "porchegt3"){
-		document.getElementById("photo").innerHTML = "<img src='assets/img/gt3.jpg'>";
-	}
-}
 
-//Clear photo from page
-function clearimg(){
-	document.getElementById("photo").innerHTML = "";
-}
-
-//=====================================================
-// ============= SOUND FUNCTIONS ======================
-//=====================================================
-
-
-//Play sound clip
-function playsound(){
-	if(randWord ==="maclarenp1"){
-		document.getElementById("soundclip").innerHTML = "<audio autoplay><source src='assets/soundclip/racecar1.mp3' type='audio/mpeg'></audio>";
-	}else if( randWord === "nissanskyline"){
-		document.getElementById("soundclip").innerHTML = "<audio autoplay><source src='assets/soundclip/racecar2.mp3' type='audio/mpeg'></audio>";
-	}else if (randWord === "porchegt3"){
-		document.getElementById("soundclip").innerHTML = "<audio autoplay><source src='assets/soundclip/racecar3.mp3' type='audio/mpeg'></audio>";
-	}
-}
-
-
-
-//clear sound clip
-function clearsound(){
-	document.getElementById("soundclip").innerHTML = "";
-}
 
 </script>
-
-<style>
-
-img{
-	width:400px;
-}
-.border{
-	border-style: solid;
-
-}
-
-
-</style>
 
 <head>
 		<title> Hang Man</title>
@@ -285,14 +204,13 @@ img{
 	<div class="container">
 		<div class="row">
 			<div class="col-md-4"> <!--images-->
-				<h3 id=photo >Picture</h3>
+				<h3>Picture</h3>
 			</div>
 			
-			<div class="col=md-4" pull-right> <!--Right column /w message, blanks, guessed letters-->
+			<div class="col=md-4"> <!--Right column /w message, blanks, guessed letters-->
 					<div class="container">
 						<div class="row"> <!--message board-->
-							<div class="col-md-4 , border"> <!--images-->
-								<h2> <u>Message Box</u></h2>
+							<div class="col-md-4"> <!--images-->
 								<h2 id="message" onclick="messagebox(this)"> Click To Start Game!</h2>
 								
 							</div>
@@ -302,8 +220,7 @@ img{
 
 					
 						<div class="row">
-							<div class="col-md-4, border, pull-right" > <!--blank fill-->
-								<h2> <u>Word to Guess</u></h2>
+							<div class="col-md-4"> <!--blank fill-->
 								<h3 id="blankfill"> blank fill</h3>
 							</div>
 						</div>
@@ -311,22 +228,19 @@ img{
 
 				
 						<div class="row">
-							<div class="col-md-4 , border, pull-right"> <!--Wins-->
-								<h2> <u>Number of Wins</u></h2>
-								<h3 id="numwins"> 0</h3>
+							<div class="col-md-4"> <!--Wins-->
+								<h3 id="numwins"> number of wins</h3>
 							</div>
 						</div>
 					
 						<div class="row">
-							<div class="col-md-4 , border"> <!--Number of tries left-->
-								<h2> <u>Chances!</u></h2>
-								<h3 id="countdown"> 7</h3>
+							<div class="col-md-4"> <!--Number of tries left-->
+								<h3 id="countdown"> Number of tries left</h3>
 							</div>
 						</div>
 
 						<div class="row">
-							<div class="col-md-4, border"> <!--letters wrong-->
-								<h2><u>Wrong Letters</u></h2>
+							<div class="col-md-4"> <!--letters wrong-->
 								<h3 id="wrongletters"> wrong letters </h3>
 							</div>
 						</div>
@@ -335,7 +249,7 @@ img{
 		</div>
 	</div>
 
-<div id="soundclip"> </div>
+
 
 
 </body>

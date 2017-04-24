@@ -1,0 +1,35 @@
+<html>
+
+
+<script>
+
+var randWord;
+randWord = "maclarenp1";
+
+function playsound(){
+	if(randWord ==="maclarenp1"){
+		document.getElementById("soundclip").innerHTML = "<audio autoplay><source src='../assets/soundclip/racecar1.mp3'   type='audio/mpeg'></audio>";
+	}else if( randWord === "nissanskyline"){
+		document.getElementById("soundclip").innerHTML = "<source src='../assets/soundclip/racecar2.mp3'  type='audio/mpeg'>";
+	}else if (randWord === "porchegt3"){
+		document.getElementById("soundclip").innerHTML = "<source src='../assets/soundclip/racecar3.mp3'  type='audio/mpeg'>";
+	}
+}
+
+
+
+//clear sound clip
+function clearsound(){
+	document.getElementById("soundclip").innerHTML = "";
+}
+
+</script>
+
+<body>
+	
+	<div id="soundclip"></div>
+</body>
+
+
+
+</html>
