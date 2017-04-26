@@ -1,0 +1,82 @@
+
+
+
+body{
+	width:100%;
+	background-image: url("../img/background.jpg");
+	background-repeat: no-repeat;
+	background-color: black ;
+	background-position: center;
+}
+
+img{
+	width:600px;
+}
+.border{
+	border-style: solid;
+
+}
+
+.textcenter{
+	text-align:center;
+}
+
+.picstyle{
+	margin-top:50px;
+	/*margin-left:100px;*/
+	padding-left:10px;
+
+
+}
+
+.messagebox{
+	height:170px;
+	background-color: rgba(63, 191, 63, 0.63);
+
+	text-align:center;
+	color:black;
+}
+
+.wordguess{
+	background-color: rgba(63, 191, 63, 0.63);
+	height:115px;
+	text-align:center;
+}
+
+.wins{
+	background-color: rgba(63, 191, 63, 0.63);
+
+	text-align:center;
+	
+}
+
+.chance{
+	background-color: rgba(63, 191, 63, 0.63);
+
+	text-align:center;
+}
+
+.wrongchoice{
+	background-color: rgba(63, 191, 63, 0.63);
+	height:115px;
+	text-align:center;
+	width:500px;
+
+}
+
+.contentstyle{
+	margin-right:100px;
+	padding-left:100px;
+}
+
+
+
+h1{
+	color:orange;
+	font-size:60px;
+}
+h2{
+	color:black !important;
+	z-index:10;
+}
+
