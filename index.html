@@ -4,14 +4,19 @@
 
 
 
-
-<script>
+ <script type="text/javascript" src="https://code.jquery.com/jquery.min.js"></script>
+ <script type="text/javascript" src="assets/js/index.js"></script>
+<!-- <script>
 
 var gameWords =[], randWord, guessWord = [], wordArray =[];
 var missedLetters =[];
 var wins = 0;
 var enable = true;
 var messagecount =0;
+var correctaudio = new Audio('assets/soundclip/correct.mp3');
+var wrongaudio = new Audio('assets/soundclip/wrong.mp3');
+var lostaudio = new Audio('assets/soundclip/lost.mp3');
+
 
 //==========================================
 //              Game Start
@@ -37,7 +42,6 @@ function timedelay(id){
     }, 2000)
 }
 
-
 //===========================================
 //     Random Word Generator Function
 //===========================================
@@ -46,11 +50,11 @@ function timedelay(id){
 function wordgenerator(){
 
 	// console.log("Please enter your guess 1 key at a time");
-	document.getElementById("message").innerHTML = "Please enter your guess 1 key at a time";
+	document.getElementById("message").innerHTML = "Guess the Make of the Car!";
 
 
 	//Array of words game will choose
-	gameWords = ["porsche gt3", "nissan skyline", "mclaren p1"];
+	gameWords = ["porsche", "nissan", "mclaren" , "lamborghini"];
 	//Choosing random word from Words Array with index
 	var randIndex = Math.floor(Math.random() * gameWords.length);
 	randWord = gameWords[randIndex];
@@ -76,11 +80,9 @@ function wordgenerator(){
 	document.getElementById("wrongletters").innerHTML = missedLetters;
 }
 
-
 //============================================
 //          Input Letters Function
 //============================================
-
 
 
 // Function to collect letter input
@@ -102,13 +104,19 @@ function myFunction(event){
 				console.log("You're RIGHT");
 				document.getElementById("message").innerHTML = "Correct Letter!";
 				letterReplace(guessLetter, randWord);
-
+				
 				document.getElementById("blankfill").innerHTML = guessWord;
+				correctaudio.play();
+				enable = false ;
+				setTimeout(function(){enable = true}, 1000);
 
 			// if key is incorrect. counter is increased to indicate number of incorrect attempts.
 			}else{
 				console.log("You're WRONG");
 				document.getElementById("message").innerHTML = "Nope, not a letter in the word. Try again!";
+				wrongaudio.play();
+				enable = false ;
+				setTimeout(function(){enable = true}, 1000);
 				count++;
 				var displaycount = 7 - count;
 				document.getElementById("countdown").innerHTML = displaycount;
@@ -123,7 +131,6 @@ function myFunction(event){
 		return;
 	}
 }
-
 
 //letter scan Function
 
@@ -150,7 +157,6 @@ function letterReplace(letter, wordarray){
 	}
 }
 
-
 //=============================================
 //      loop to measure is game has been won
 //=============================================
@@ -170,7 +176,6 @@ function gamestatus(){
 	// if no "-" are found, game is won
 	if(blanks === 0){
 		count = 0; 
-		console.log("YOU WIN THE GAME");
 		document.getElementById("message").innerHTML = " You Win!";
 		wins++;
 		
@@ -180,16 +185,14 @@ function gamestatus(){
 		//sound associated to car
 		playsound();
 
-		
-
 		document.getElementById("numwins").innerHTML = wins;
 		missedLetters =[];
 		guessWord = [];
 		enable = false ;
-		setTimeout(function(){enable = true}, 6000);
-		setTimeout(function(){wordgenerator()}, 5000)
-		setTimeout(function(){clearimg()}, 6000);
-		setTimeout(function(){clearsound()}, 6000);
+		setTimeout(function(){enable = true}, 13000);
+		setTimeout(function(){wordgenerator()}, 13000)
+		setTimeout(function(){clearimg()}, 13000);
+		setTimeout(function(){clearsound()}, 14000);
 		document.getElementById("countdown").innerHTML = "7";
 		
 		// wordgenerator();
@@ -197,27 +200,27 @@ function gamestatus(){
 	if(count > 6){
 		console.log("YOU LOSE THE GAME; try again");
 		document.getElementById("message").innerHTML = "YOU LOSE!";
+		lostaudio.play();
 		count = 0;
 		missedLetters =[];
 		guessWord = [];
 		enable = false;
-		setTimeout(function(){enable = true}, 3000);
-		setTimeout(function(){wordgenerator()}, 2000);
+		setTimeout(function(){enable = true}, 4000);
+		setTimeout(function(){wordgenerator()}, 4000);
 		document.getElementById("countdown").innerHTML = "7";
-
-				
-
 	}
 }
- 
+
 // Display photo when win function
 function displayimg(){
-	if(randWord ==="mclaren p1"){
+	if(randWord ==="mclaren"){
 		document.getElementById("photo").innerHTML = "<img src='assets/img/p1.jpg'>";
-	}else if( randWord === "nissan skyline"){
+	}else if( randWord === "nissan"){
 		document.getElementById("photo").innerHTML = "<img src='assets/img/skyline.jpg'>";
-	}else if (randWord === "porsche gt3"){
+	}else if (randWord === "porsche"){
 		document.getElementById("photo").innerHTML = "<img src='assets/img/gt3.jpg'>";
+	}else if (randWord === "lamborghini"){
+		document.getElementById("photo").innerHTML = "<img src='assets/img/lambo.jpg'>";
 	}
 }
 
@@ -230,28 +233,24 @@ function clearimg(){
 // ============= SOUND FUNCTIONS ======================
 //=====================================================
 
-
 //Play sound clip
 function playsound(){
-	if(randWord ==="mclaren p1"){
-		document.getElementById("soundclip").innerHTML = "<audio autoplay><source src='assets/soundclip/racecar1.mp3' type='audio/mpeg'></audio>";
-	}else if( randWord === "nissan skyline"){
-		document.getElementById("soundclip").innerHTML = "<audio autoplay><source src='assets/soundclip/racecar2.mp3' type='audio/mpeg'></audio>";
-	}else if (randWord === "porsche gt3"){
-		document.getElementById("soundclip").innerHTML = "<audio autoplay><source src='assets/soundclip/racecar3.mp3' type='audio/mpeg'></audio>";
+	if(randWord ==="mclaren"){
+		document.getElementById("soundclip").innerHTML = "<audio autoplay><source src='assets/soundclip/p1.mp3' type='audio/mpeg'></audio>";
+	}else if( randWord === "nissan"){
+		document.getElementById("soundclip").innerHTML = "<audio autoplay><source src='assets/soundclip/skyline.mp3' type='audio/mpeg'></audio>";
+	}else if (randWord === "porsche"){
+		document.getElementById("soundclip").innerHTML = "<audio autoplay><source src='assets/soundclip/porsche.mp3' type='audio/mpeg'></audio>";
+	}else if (randWord === "lamborghini"){
+		document.getElementById("soundclip").innerHTML = "<audio autoplay><source src='assets/soundclip/lambo.mp3' type='audio/mpeg'></audio>";
 	}
 }
-
-
 
 //clear sound clip
 function clearsound(){
 	document.getElementById("soundclip").innerHTML = "";
 }
-
-</script>
-
-
+</script> -->
 
 <head>
 		<title> Hang Man Game</title>
@@ -264,17 +263,11 @@ function clearsound(){
 		
 	</head>
 
-
-
 <body onkeydown="myFunction(event)">
-
-
-
-
 	<div class="container">
 		<div class="row">
-			<div class="col-md-12 , textcenter">
-				<h1>Initial Guess!</h1>
+			<div class="col-md-12 , textcenter , border">
+				<h1>INITIAL GUESS!</h1>
 			</div>
 		</div>
 	</div>
@@ -287,57 +280,50 @@ function clearsound(){
 			
 			<div class="col-md-4 , pull-right" > <!--Right column /w message, blanks, guessed letters-->
 				<!-- 	<div class="container"> -->
-						<div class="row , messagebox"> <!--message board-->
-							<!-- <div class="col-md-4 , border , textcenter , messagebox"> --> <!--images-->
-								<h2> <u>Message Box</u></h2>
-								<h2 id="message" onclick="messagebox(this)"> Click Here Start Game!</h2>
-								
-							<!-- </div> -->
-
-						</div>
-					
-
-					
-						<div class="row , wordguess">
-							<!-- <div class="col-md-4 , border , textcenter" >  --><!--blank fill-->
-								<h2> <u>Word to Guess</u></h2>
-								<h3 id="blankfill"> </h3>
-						<!-- 	</div> -->
-						</div>
-					
-
+				<div class="row , messagebox , panel-success , panel">
+					<div class="panel-heading">Message Box</div> <!--message board-->
+						<h2> <u></u></h2>
+						<h2 id="message" onclick="messagebox(this)"> Click --> HERE <-- Start Game!</h2>							
+				</div>
 				
-						<div class="row , wins">
-							<!-- <div class="col-md-4 , border , textcenter">  --><!--Wins-->
-								<h2> <u>Number of Wins</u></h2>
-								<h3 id="numwins"> 0</h3>
-						<!-- 	</div> -->
-						</div>
-					
-						<div class="row , chance">
-						<!-- 	<div class="col-md-4 , border , textcenter">  --><!--Number of tries left-->
-								<h2> <u>Chances!</u></h2>
-								<h3 id="countdown"> 7</h3>
-						<!-- 	</div> -->
-						</div>
+				<div class="row , panel , blankfill , panel-success , wordguess">
+					<div class="panel-heading">Word to Guess</div>
+					<div class="panel-body">
+						<h2> <u></u></h2>
+						<h3 id="blankfill"> </h3>
+					</div>
 				<!-- 	</div> -->
+				</div>
+			
+
+		
+				<div class="row , wins , panel , panel-success">
+					<div class="panel-heading">Number of Wins</div>
+					<h2> <u></u></h2>
+					<h3 id="numwins"> 0</h3>
+				<!-- 	</div> -->
+				</div>
+			
+				<div class="row , chance , panel , panel-success">
+					<div class="panel-heading">Number of Chances Left!</div>
+		
+					<h2> <u></u></h2>
+					<h3 id="countdown"> 7</h3>
+				</div>
+
+				<div class="row , wrongchoice , panel , panel-success">
+					<div class="panel-heading"> Wrong Letters </div>
+					<div class="panel-body">
+						<h2><u></u></h2>
+						<h3 id="wrongletters">  </h3>
+					</div>
+				</div>
 			</div>
-			
 		</div>
 	</div>
-	<div class="container">
-		<div class="row , wrongchoice">
-			 <!--letters wrong-->
-				<h2><u>Wrong Letters</u></h2>
-				<h3 id="wrongletters">  </h3>
-			
-		</div>
-	</div>
-
-<div id="soundclip"> </div>
-
+	
+	<div id="soundclip"> </div>
 
 </body>
-
 
 </html>
